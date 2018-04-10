@@ -1,19 +1,16 @@
 """Schema definition for analyzer results."""
 
-import datetime
-
 from voluptuous import Required
 from voluptuous import Schema
+
+from thoth.common import parse_datetime
 
 
 class Datetime(object):
     """Check datetime fields against ISO format."""
 
     def __call__(self, dt):
-        dt, _, us = dt.partition(".")
-        dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-        us = int(us.rstrip("Z"), 10)
-        return dt + datetime.timedelta(microseconds=us)
+        return parse_datetime(dt)
 
 
 # Describe Python version used by the analyzer image.
